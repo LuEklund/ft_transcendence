@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Homepage } from "./Components/homepage/Homepage";
 import { Login } from "./Components/LoginPage/Login";
 import { MainMenu } from "./Components/MainMenu/MainMenu";
+import { Pong } from "./Components/games/Pong";
 
 function App() {
 	return (
@@ -13,6 +14,7 @@ function App() {
 					<Route path="/" element={<Homepage />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/mainmenu" element={<MainMenu />} />
+					<Route path="/pong" element={<Pong />} />
 				</Routes>
 			</BrowserRouter>
 		</div>

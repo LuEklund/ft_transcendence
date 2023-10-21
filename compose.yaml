@@ -1,21 +1,21 @@
 services:
-  backend:
-    build: ./backend
-    depends_on:
-      - postgres
-    ports:
-      - 8000:8000
-    volumes:
-      - ./backend/src:/app/src
+  #backend:
+   # build: ./backend
+    #depends_on:
+    #  - postgres
+   # ports:
+   #   - 8000:8000
+   # volumes:
+   #   - ./backend/src:/app/src
 
-  postgres:
-    image: postgres:16.0-bookworm
-    environment:  
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASS}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+ # postgres:
+   # image: postgres:16.0-bookworm
+   # environment:
+   #   POSTGRES_USER: ${POSTGRES_USER}
+   #   POSTGRES_PASSWORD: ${POSTGRES_PASS}
+   #   POSTGRES_DB: ${POSTGRES_DB}
+  #  volumes:
+    #  - pgdata:/var/lib/postgresql/data
 
   frontend:
     build:
