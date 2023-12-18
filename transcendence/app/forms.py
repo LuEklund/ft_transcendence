@@ -88,6 +88,7 @@ class SignupForm(CustomUserCreationForm):
         user.avatarImage = djangoFile
         user.full_clean()
         user.save()
+        f.close()
         return user
 
 
