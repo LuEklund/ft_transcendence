@@ -230,7 +230,7 @@ export const Pong = () : JSX.Element => {
 
 	return (
 		<div>
-			<a> WEEEEEEELCOME xD</a>
+			<a> WEEEEEEELCOME xD </a>
 			<canvas className = "myCanvas" ref={canvasRef} />
 		</div>
 	);
