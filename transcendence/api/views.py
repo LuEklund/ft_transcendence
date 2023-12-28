@@ -21,6 +21,7 @@ def authorize(request):
 
 def callback(request):
     code = request.GET.get('code')
+    print(code)
     data = {
         'grant_type': 'authorization_code',
         'client_id': getenv('CLIENT_ID'),
@@ -37,6 +38,7 @@ def callback(request):
     else:
         token_data = response.json()
         access_token = token_data['access_token']
+        print(access_token)
     # You now have the access token and can use it to make authenticated requests to the 42 API
     # You can store the access token in the session, a cookie, or a database, depending on your needs
     return HttpResponseRedirect('/')
