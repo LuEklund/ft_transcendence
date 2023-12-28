@@ -1,12 +1,45 @@
-from django.http import JsonResponse, QueryDict
+from django.http import JsonResponse, QueryDict, HttpResponseRedirect
+from django.conf import settings
 from django.forms.models import model_to_dict
 from django.core.serializers import serialize
+from django.shortcuts import render
 from .models import Tournament, Players, CustomUserData
 from app.forms import ProfilePicture
 from app.views import loginUser
-from django.shortcuts import render
 from app.utils import stringifyImage
+from os import getenv
+import requests
 import json
+
+
+#==========================================
+#                 OAuth2
+#==========================================
+def authorize(request):
+    url = f"https://api.intra.42.fr/oauth/authorize?client_id={getenv('CLIENT_ID')}&redirect_uri={getenv('REDIRECT_URI')}&response_type=code"
+    return HttpResponseRedirect(url)
+
+def callback(request):
+    code = request.GET.get('code')
+    data = {
+        'grant_type': 'authorization_code',
+        'client_id': getenv('CLIENT_ID'),
+        'client_secret': getenv('CLIENT_SECRET'),
+        'code': code,
+        'redirect_uri': getenv('REDIRECT_URI')
+    }
+    response = requests.post('https://api.intra.42.fr/oauth/token', data=data)
+    if response.status_code != 200:
+        # The request was not successful. Print out the error message.
+        error_data = response.json()
+        print(f"Error: {error_data['error']}")
+        print(f"Error description: {error_data['error_description']}")
+    else:
+        token_data = response.json()
+        access_token = token_data['access_token']
+    # You now have the access token and can use it to make authenticated requests to the 42 API
+    # You can store the access token in the session, a cookie, or a database, depending on your needs
+    return HttpResponseRedirect('/')
 
 
 #==========================================
