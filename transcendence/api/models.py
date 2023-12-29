@@ -6,6 +6,31 @@ from django.db import models
 from .imageValidation import validateFileType, validationImageSize, defineNameImage
 from django.core.files import File
 
+#==========================================
+#                 OAuth2 Models
+#==========================================
+
+#Here it goes the prototypes for 42 users
+#for the endpoint: https://api.intra.42.fr/v2/users/{intraName}
+
+class Image(models.Model):
+    link = models.URLField(null=True)
+    versions_large = models.URLField(null=True)
+    versions_medium = models.URLField(null=True)
+    versions_small = models.URLField(null=True)
+    versions_micro = models.URLField(null=True)
+
+class User42Api(models.Model):
+    id = models.IntegerField(primary_key=True, null=True) #this id is for 42 and subsequent fetchings
+    email = models.EmailField(max_length=255, null=True)
+    login = models.CharField(max_length=255, null=True)
+    first_name = models.CharField(max_length=255, null=True)
+    last_name = models.CharField(max_length=255, null=True)
+    image = models.OneToOneField(Image, on_delete=models.CASCADE, null=True)
+
+
+
+#==========================================#
 
 class CustomUserManager(BaseUserManager):
 
@@ -37,11 +62,6 @@ class CustomUserManager(BaseUserManager):
             raise ValueError(_('Superuser must have is_superuser=True.'))
         return self.create_user(username, email, password, **extra_fields)
 
-
-
-
-
-
 class CustomUserData(AbstractUser):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     onlineStatus = models.BooleanField(default=False)
@@ -71,5 +91,5 @@ class Tournament(models.Model):
     uuid = models.UUIDField()
     name = models.CharField(max_length=255)
     amount = models.IntegerField()
-    sate = models.CharField(max_length=1, choices=STATE_CHOICES, default='P')
+    state = models.CharField(max_length=1, choices=STATE_CHOICES, default='P')
     players = models.ManyToManyField(Players, related_name='tournaments')

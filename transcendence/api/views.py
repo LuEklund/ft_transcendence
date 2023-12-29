@@ -15,13 +15,15 @@ import json
 #==========================================
 #                 OAuth2
 #==========================================
+
+# Authorize and callback a the first steps for authentication where 42API webpage is reached out with
+#the correct credentials, returning the authentication token saved in the variable code
 def authorize(request):
     url = f"https://api.intra.42.fr/oauth/authorize?client_id={getenv('CLIENT_ID')}&redirect_uri={getenv('REDIRECT_URI')}&response_type=code"
     return HttpResponseRedirect(url)
 
 def callback(request):
     code = request.GET.get('code')
-    print(code)
     data = {
         'grant_type': 'authorization_code',
         'client_id': getenv('CLIENT_ID'),
@@ -39,23 +41,30 @@ def callback(request):
         token_data = response.json()
         access_token = token_data['access_token']
         print(access_token)
-    # You now have the access token and can use it to make authenticated requests to the 42 API
-    # You can store the access token in the session, a cookie, or a database, depending on your needs
-    return HttpResponseRedirect('/')
+    # Now we have the access token and can use it to make authenticated requests to the 42 API
+    # It needs to be stored somehow in order to be used for fetchData()
+    return HttpResponseRedirect('/login42')
 
+#TO DO:
+#Still need to implement the automatica renew of the token since it expires every 30 minutes
+
+#ATENTION:
+# This function probably will be transformed in an async js function with (try/catch) since needs to be executed as
+#an event in the correct html page while submitting the form by clicking the button for it (login username)
+# It might take time so probably the looooading circle will be needed while waiting for the fetched json data
 def fetchData(request):
-    #hardcoded access token
-    access_token = 'e4ad8565bc2160bcde4b52bc0862faf8d64f1a82f01fcf3078f57310983cb2ec'
+    # Hardcoded access token that needs to be copied everytime when authentication is made
+    access_token = '1cadb72c3905530de3b233457820f5ff996e106161c69956aafa06e8bca680fa'
 
-    # Define the headers for the request
+    # Defined header for the request
     headers = {
         'Authorization': f'Bearer {access_token}',
     }
 
-    #hardcoded url
+    #hardcoded endpoint in 42 API (intra username that was typed in the form should be used instead of Joao's)
     baseUrl = 'https://api.intra.42.fr/v2/users/jonascim'
 
-    # Make the GET request to the desired endpoint
+    # GET request to the desired endpoint (try and catch probably here)
     response = requests.get(baseUrl, headers=headers)
 
     # Check the status code of the response

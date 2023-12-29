@@ -1,0 +1,46 @@
+<div class="registerContainer">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<h1 class="registerTitle">Login 42</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 col-md-6 offset-md-3">
+				<p id="loginErrorMessage"></p>
+				<form onsubmit="submitLogin(event)" method="post" action="{% url 'postLogin' %}">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="{{ form.username.id_for_label}}" class="loginLabel" >Username:</label>
+						{{ form.username }}
+					</div>
+					<!-- For the 42 Authorization flow, we don't need password cell in the form, only username -->
+					<button
+						type="submit"
+						class="btn btn-success w-100 mt-5"
+					>Login</button>
+				</form>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-12 col-md-6 offset-md-3">
+				<a
+					href="signup"
+					onclick="route()"
+					class="registerLink"
+				>Dont have accout yet? Register here</a>
+			</div>
+			<div class="col-md-4 offset-4">
+				<button class="btn btn-danger w-100"
+						onclick="navigateTo('/')">
+					Cancel
+				</button>
+			</div>
+		</div>
+	</div>
+	<div id="loadingSpinnerContainer">
+		<div class="spinner-border text-primary" style="width: 100px; height: 100px;" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+</div>

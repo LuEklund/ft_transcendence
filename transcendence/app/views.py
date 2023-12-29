@@ -43,6 +43,34 @@ def loginUser(request):
     }
     return render(request, 'index.html', context)
 
+## TO DO: (Refactor)
+#Auxiliar function called by the view login42 where our authentication and callback will be running on the background
+# We only need username before fetching to the 42API -> followed by a verificaation code send to student email
+def login42User(request):
+    if request.user.is_authenticated:
+        return dashboard(request)
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        form = LoginForm(data)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user:
+               login(request, user)
+               return JsonResponse({"success": "true", "message": "Login completed successfuly"}, status=200)
+            else:
+               return JsonResponse({"success": "false", "message": "Invalid credentials"}, status=400)
+        else:
+            return JsonResponse({"success": "false", "message": "the form is invalid"}, status=400)
+    else:
+        form = LoginForm()
+    context = {
+        "form": form,
+        "content": "login42.html"
+    }
+    return render(request, 'index.html', context)
+
 def logoutUser(request):
     logout(request)
     return JsonResponse({"success": "true", "message": "logout succeeded"}, status=200)

@@ -5,6 +5,7 @@ urlpatterns = [
     path("404", views.status_404, name="404"),
     path("_404", views.status_404, name="404"),
     path("login", views.loginUser, name="login"),
+    path("login42", views.login42User, name="login"), #path created for login using 42 credentials (based on normal login page)
     path("signup", views.signup, name="signup"),
     path("logout", views.logoutUser, name="logout"),
     path("settings", views.settings, name="settings"),
