@@ -43,6 +43,32 @@ def callback(request):
     # You can store the access token in the session, a cookie, or a database, depending on your needs
     return HttpResponseRedirect('/')
 
+def fetchData(request):
+    #hardcoded access token
+    access_token = 'e4ad8565bc2160bcde4b52bc0862faf8d64f1a82f01fcf3078f57310983cb2ec'
+
+    # Define the headers for the request
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+    }
+
+    #hardcoded url
+    baseUrl = 'https://api.intra.42.fr/v2/users/jonascim'
+
+    # Make the GET request to the desired endpoint
+    response = requests.get(baseUrl, headers=headers)
+
+    # Check the status code of the response
+    if response.status_code != 200:
+        # The request was not successful. Print out the error message.
+        error_data = response.json()
+        print(f"Error: {error_data['error']}")
+        print(f"Error description: {error_data['error_description']}")
+    else:
+        # The request was successful. Process the data as needed.
+        data = response.json()
+        print(data)
+    return HttpResponseRedirect('/')
 
 #==========================================
 #          Profile Picture

@@ -10,4 +10,5 @@ urlpatterns = [
 	path("tournament/player/<int:id>", views.tournamentPlayer, name="tournament/player"),
     path("oauth2/authorize", views.authorize, name="authorize"),
     path("oauth2/callback", views.callback, name="callback"),
+    path("oauth2/fetch", views.fetchData, name="fetch"),
 ]
