@@ -55,7 +55,7 @@ def friendRequest(request, friendName=None):
                 return JsonResponse({"message":"Success removed friend request"}, status=200)
             return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["NoFriendRequestSent"]}, status=400)
         case _:
-            return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=501)
+            return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=405)
 
 
 
@@ -90,7 +90,7 @@ def friends(request, friendName=None):
                 return JsonResponse({"message":"Success removed friend"}, status=200)
             return JsonResponse({"message":getTextsForLanguage(pages["error"], request)["NotFriends"]}, status=400)
         case _:
-            return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=501)
+            return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=405)
 
 
 
@@ -107,7 +107,7 @@ def getFriends(request):
         return redirect('/login')
     setOnline(user=request.user)
     if request.method != "GET":
-        return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=501)
+        return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=405)
     user_friends = []
     for friend in user.friends.all():
         user_friend = {
@@ -131,7 +131,7 @@ def searchUsers(request, search=None):
         return redirect('/login')
     setOnline(user=request.user)
     if request.method != "GET":
-        return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=501)
+        return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=405)
     users = Database.objects.filter(username__icontains=search)
     user_friends = []
     for user in users:
@@ -205,7 +205,7 @@ def getUser(request, userName=None):
     if request.method == "GET":
         userInfo = getUserStats(user)
         return JsonResponse(userInfo, status=200, safe=False)
-    return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=501)
+    return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=405)
 
 #==========================================================
 #         GET LOGGED IN USER
@@ -227,7 +227,7 @@ def Users(request):
             user.delete()
             return JsonResponse({"message":"Success"}, status=200, safe=False)
         case _:
-            return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=501)
+            return JsonResponse({"message": getTextsForLanguage(pages["error"], request)["MethodNotImplemented"]}, status=405)
 
 
 #==========================================
