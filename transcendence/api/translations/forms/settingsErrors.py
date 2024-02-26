@@ -108,6 +108,18 @@ dictionary = {
             "swe": "Något gick fel"
         }
     },
+    "email": {
+        "Email has invalid characters in it": {
+            "eng": "Email has invalid characters in it",
+            "fin": "Sähköpostissa on virheellisiä merkkejä",
+            "swe": "Epost innehåller ogiltiga tecken"
+        },
+        "Undefined error": {
+            "eng": "Something went wrong",
+            "fin": "Jotain meni pieleen",
+            "swe": "Något gick fel"
+        }
+    },
     "validation": {
         "There was an issue changing the username": {
             "eng": "There was an issue changing the username",

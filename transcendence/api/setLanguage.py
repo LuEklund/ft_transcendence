@@ -1,7 +1,9 @@
 from django.shortcuts import redirect
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 import json
 
+@csrf_exempt
 def	setLanguage(request):
     if request.method != "POST":
         return redirect('/404')
